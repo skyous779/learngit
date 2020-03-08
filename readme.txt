@@ -1,3 +1,3 @@
-Git is a version control system.
+Git is a version system.
 Git is free sofeware.
-Leo is a handsome boy!
+Leo is a handsome boy;
