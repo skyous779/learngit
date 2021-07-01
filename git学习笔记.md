@@ -118,6 +118,44 @@ RSA key fingerprint is xx.xx.xx.xx.xx.
 Are you sure you want to continue connecting (yes/no)?		//当你第一次使用Git的clone或者push命令连接														GitHub时，会得到一个警告因为Git使用SSH连															接，而SSH连接在第一次验证GitHub服务器的Key															时，需要你确认GitHub的Key的指纹信息是否真的														  来自GitHub的服务器，输入yes回车即可。
 
 ```
+## 分支管理
+### 创建分支
+- git branch   查看分支
+- git branch < name > 创建分支
+- git checkout < name >    or   git switch < name > 切换分支
+- 创建+切换分支：git checkout -b <name>或者git switch -c <name>
+- 合并某分支到当前分支：git merge <name>
+- 删除分支：git branch -d <name>
+
+### 解决冲突
+当在master和dev上同时做出不同的修改时，合并分支会出错，这时候需要解决冲突。
+- git log 查看分支情况
+- git log --graph命令可以看到分支合并图
+
+### 分支管理策略
+当合并分支时，不想要删除dev分支，可以使用 *--no-ff*模式进行合并。
+- 效果图：
+![avatar](img/屏幕截图_2.png)这样不会删除dev。
+
+- 类似手机刷机包各种版本！
+![avatar](img/屏幕截图.png)
+- git merge --no-ff -m "merge with no-ff" dev #合并分支时，要添加家commit信息。
+  
+
+### bug管理
+当你接到一个修复一个代号101的bug的任务时，很自然地，你想创建一个分支issue-101来修复它，但是，等等，当前正在dev上进行的工作还没有提交，并不是你不想提交，而是工作只进行到一半，还没法提交，预计完成还需1天时间。但是，必须在两个小时内修复该bug，怎么办？
+
+幸好，Git还提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：
+这就有点像之前的冲突了。
+
+修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；
+
+当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再回到dev进行git stash pop，回到工作现场；
+
+在master分支上修复的bug，想要合并到当前dev分支，可以用git cherry-pick < commit >命令，把bug提交的修改“复制”到当前分支，避免重复劳动。 commit 通过 git log查询。
+
+
+
 
 
 
