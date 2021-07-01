@@ -154,6 +154,66 @@ Are you sure you want to continue connecting (yes/no)?		//当你第一次使用G
 
 在master分支上修复的bug，想要合并到当前dev分支，可以用git cherry-pick < commit >命令，把bug提交的修改“复制”到当前分支，避免重复劳动。 commit 通过 git log查询。
 
+### feature 分支
+添加一个新功能时，你肯定不希望因为一些实验性质的代码，把主分支搞乱了，所以，每添加一个新功能，最好新建一个feature分支，在上面开发，完成后，合并，最后，删除该feature分支。
+
+这就很像bug管理。
+
+
+### 多人模式
+
+要查看远程库的信息，用git remote：
+
+```
+$ git remote
+origin 
+```
+推动到分支：
+```
+git push origin master
+git push origin dev
+```
+常用
+- master分支是主分支，因此要时刻与远程同步；
+
+- dev分支是开发分支，团队所有成员都需要在上面工作，所以也需要与远程同步；
+
+- bug分支只用于在本地修复bug，就没必要推到远程了，除非老板要看看你每周到底修复了几个bug；
+
+- feature分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发。
+
+别人要和你多人工作，需要关联到你的分支：
+```
+git checkout -b dev origin/dev   #创建并且关联
+
+git branch --set-upstream-to=origin/dev dev  #直接关联
+```
+
+因此，多人协作的工作模式通常是这样：
+
+1. 首先，可以试图用git push origin <branch-name>推送自己的修改；
+
+2. 如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+
+3. 如果合并有冲突，则解决冲突，并在本地提交；
+
+4. 没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！
+
+5. 如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令git branch --set-upstream-to <branch-name> origin/<branch-name>。
+
+小结：
+- 查看远程库信息，使用git remote -v；
+
+- 本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+- 从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+- 在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+- 建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+- 从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
 
 
 
